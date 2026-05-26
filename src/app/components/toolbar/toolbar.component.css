@@ -1,0 +1,107 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: var(--toolbar-bg);
+  border-bottom: 1px solid var(--border-color);
+  height: 44px;
+  box-sizing: border-box;
+  -webkit-app-region: drag;
+  flex-shrink: 0;
+}
+
+.toolbar * {
+  -webkit-app-region: no-drag;
+}
+
+.nav-btns {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.icon-btn:hover {
+  background: var(--hover-bg);
+  color: var(--text-primary);
+}
+
+.icon-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.address-bar-form {
+  flex: 1;
+  min-width: 0;
+}
+
+.address-bar {
+  display: flex;
+  align-items: center;
+  background: var(--input-bg);
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  padding: 0 10px;
+  height: 32px;
+  transition: border-color 0.15s, background 0.15s;
+  gap: 6px;
+}
+
+.address-bar.focused {
+  border-color: var(--accent-color);
+  background: var(--input-focused-bg);
+}
+
+.address-bar:hover:not(.focused) {
+  border-color: var(--border-hover-color);
+}
+
+.protocol {
+  font-size: 12px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.address-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  min-width: 0;
+  font-family: inherit;
+}
+
+.address-input::placeholder {
+  color: var(--text-placeholder);
+}
+
+.bookmark-btn {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.bookmark-btn.bookmarked {
+  color: var(--accent-color);
+}
+
+.bookmark-btn svg {
+  width: 18px;
+  height: 18px;
+}

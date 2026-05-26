@@ -1,0 +1,27 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--app-bg);
+}
+
+.toolbar-host { flex-shrink: 0; order: 1; }
+.tabbar-top { flex-shrink: 0; order: 2; }
+
+.body-row {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  order: 3;
+}
+
+.content-area {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--content-bg);
+}

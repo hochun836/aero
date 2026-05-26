@@ -1,0 +1,83 @@
+/* ── CSS Variables (Light theme) ─────────────────────────────── */
+:root {
+  --app-bg: #f0f0f0;
+  --toolbar-bg: #f8f8f8;
+  --tabbar-bg: #efefef;
+  --content-bg: #ffffff;
+  --card-bg: #f8f8f8;
+  --input-bg: #e8e8e8;
+  --input-focused-bg: #ffffff;
+
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --text-placeholder: #999999;
+
+  --border-color: #d8d8d8;
+  --border-hover-color: #b0b0b0;
+  --hover-bg: rgba(0, 0, 0, 0.06);
+  --tab-hover-bg: rgba(0, 0, 0, 0.06);
+  --tab-active-bg: rgba(255, 255, 255, 0.9);
+  --close-btn-hover: rgba(0, 0, 0, 0.12);
+
+  --accent-color: #0078d4;
+  --danger-color: #d93025;
+  --shadow-color: rgba(0, 0, 0, 0.12);
+}
+
+/* ── Dark theme ──────────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-bg: #1a1a1a;
+    --toolbar-bg: #242424;
+    --tabbar-bg: #202020;
+    --content-bg: #1e1e1e;
+    --card-bg: #2a2a2a;
+    --input-bg: #2e2e2e;
+    --input-focused-bg: #333333;
+
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-placeholder: #666666;
+
+    --border-color: #383838;
+    --border-hover-color: #555555;
+    --hover-bg: rgba(255, 255, 255, 0.07);
+    --tab-hover-bg: rgba(255, 255, 255, 0.07);
+    --tab-active-bg: rgba(255, 255, 255, 0.1);
+    --close-btn-hover: rgba(255, 255, 255, 0.12);
+
+    --accent-color: #4da3e8;
+    --danger-color: #f28b82;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* ── Reset ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--app-bg);
+}
+
+/* Allow text selection only in inputs */
+input, textarea { -webkit-user-select: text; user-select: text; }
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-hover-color); }
+
+/* Focus outline */
+:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }

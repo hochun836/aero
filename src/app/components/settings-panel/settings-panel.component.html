@@ -1,0 +1,54 @@
+<div class="panel-overlay" (click)="close.emit()"></div>
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-title">設定</span>
+    <button class="close-btn" (click)="close.emit()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M2 2l12 12M14 2L2 14"/>
+      </svg>
+    </button>
+  </div>
+  <div class="panel-body">
+    <section class="settings-section">
+      <h3 class="section-title">分頁列位置</h3>
+      <div class="tab-pos-options">
+        <button
+          class="pos-option"
+          [class.selected]="settings().tabPosition === 'top'"
+          (click)="setTabPosition('top')"
+        >
+          <div class="pos-preview pos-preview--top">
+            <div class="preview-tabs"></div>
+            <div class="preview-content"></div>
+          </div>
+          <span>上方</span>
+        </button>
+        <button
+          class="pos-option"
+          [class.selected]="settings().tabPosition === 'left'"
+          (click)="setTabPosition('left')"
+        >
+          <div class="pos-preview pos-preview--left">
+            <div class="preview-tabs"></div>
+            <div class="preview-content"></div>
+          </div>
+          <span>左側</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h3 class="section-title">廣告攔截</h3>
+      <label class="toggle-row">
+        <span class="toggle-label">啟用 AdBlock</span>
+        <input
+          type="checkbox"
+          class="toggle"
+          [checked]="settings().adblockEnabled"
+          (change)="setAdblock($event)"
+        />
+      </label>
+      <p class="settings-hint">攔截常見廣告與追蹤器的導航請求。</p>
+    </section>
+  </div>
+</div>

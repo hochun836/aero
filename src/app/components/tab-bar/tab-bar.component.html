@@ -1,0 +1,82 @@
+<!-- Horizontal tab bar (top) -->
+@if (tabPosition() === 'top') {
+  <div class="tab-bar tab-bar--top">
+    <div class="tabs-scroll">
+      @for (tab of tabs(); track tab.id) {
+        <div
+          class="tab"
+          [class.active]="tab.id === activeTabId()"
+          [class.loading]="tab.loading"
+          (click)="selectTab(tab)"
+        >
+          @if (tab.loading) {
+            <span class="tab-spinner"></span>
+          } @else if (favicon(tab)) {
+            <img class="tab-favicon" [src]="favicon(tab)" alt="" (error)="$event.target.style.display='none'" />
+          } @else {
+            <span class="tab-icon-placeholder">◎</span>
+          }
+          <span class="tab-title">{{ shortTitle(tab) }}</span>
+          <button class="tab-close" (click)="closeTab($event, tab.id)" title="關閉">
+            <svg viewBox="0 0 12 12" fill="currentColor">
+              <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      }
+    </div>
+    <button class="new-tab-btn" (click)="newTab()" title="新增分頁 (Ctrl+T)">
+      <svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 2a1 1 0 011 1v4h4a1 1 0 110 2H9v4a1 1 0 11-2 0V9H3a1 1 0 110-2h4V3a1 1 0 011-1z"/>
+      </svg>
+    </button>
+    <button class="settings-btn icon-btn" (click)="openSettings()" title="設定">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+      </svg>
+    </button>
+  </div>
+}
+
+<!-- Vertical tab bar (left) -->
+@if (tabPosition() === 'left') {
+  <div class="tab-bar tab-bar--left">
+    <div class="tabs-scroll">
+      @for (tab of tabs(); track tab.id) {
+        <div
+          class="tab tab--vertical"
+          [class.active]="tab.id === activeTabId()"
+          [class.loading]="tab.loading"
+          (click)="selectTab(tab)"
+        >
+          @if (tab.loading) {
+            <span class="tab-spinner"></span>
+          } @else if (favicon(tab)) {
+            <img class="tab-favicon" [src]="favicon(tab)" alt="" (error)="$event.target.style.display='none'" />
+          } @else {
+            <span class="tab-icon-placeholder">◎</span>
+          }
+          <span class="tab-title">{{ shortTitle(tab) }}</span>
+          <button class="tab-close" (click)="closeTab($event, tab.id)" title="關閉">
+            <svg viewBox="0 0 12 12">
+              <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      }
+    </div>
+    <div class="tab-bar-footer">
+      <button class="new-tab-btn new-tab-btn--vertical" (click)="newTab()" title="新增分頁 (Ctrl+T)">
+        <svg viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 2a1 1 0 011 1v4h4a1 1 0 110 2H9v4a1 1 0 11-2 0V9H3a1 1 0 110-2h4V3a1 1 0 011-1z"/>
+        </svg>
+        <span>新分頁</span>
+      </button>
+      <button class="settings-btn icon-btn" (click)="openSettings()" title="設定">
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+}

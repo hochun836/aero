@@ -1,0 +1,50 @@
+<div
+  class="app-shell"
+  [class.tabs-top]="tabPosition() === 'top'"
+  [class.tabs-left]="tabPosition() === 'left'"
+>
+  <!-- ── Toolbar (always at top) ───────────────────────────────── -->
+  <app-toolbar
+    class="toolbar-host"
+    [contentAreaFn]="contentAreaFn"
+  />
+
+  <!-- ── Body: tab bar + content ──────────────────────────────── -->
+  <div class="body-row">
+    <!-- Left tab bar (only when tabs-left) -->
+    @if (tabPosition() === 'left') {
+      <app-tab-bar
+        [contentAreaFn]="contentAreaFn"
+        (onOpenSettings)="showSettings.set(true)"
+      />
+    }
+
+    <!-- Content area -->
+    <div class="content-area" #contentArea>
+      @if (showNewTabPage()) {
+        <app-new-tab-page (navigate)="onNavigate($event)" />
+      }
+      <!-- Tauri child webviews are positioned on top of this area -->
+    </div>
+  </div>
+
+  <!-- ── Top tab bar (only when tabs-top) ─────────────────────── -->
+  @if (tabPosition() === 'top') {
+    <app-tab-bar
+      class="tabbar-top"
+      [contentAreaFn]="contentAreaFn"
+      (onOpenSettings)="showSettings.set(true)"
+    />
+  }
+
+  <!-- ── Panels ────────────────────────────────────────────────── -->
+  @if (showBookmarks()) {
+    <app-bookmarks-panel
+      (close)="showBookmarks.set(false)"
+      (navigate)="onNavigate($event)"
+    />
+  }
+  @if (showSettings()) {
+    <app-settings-panel (close)="showSettings.set(false)" />
+  }
+</div>

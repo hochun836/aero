@@ -1,0 +1,32 @@
+<div class="panel-overlay" (click)="close.emit()"></div>
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-title">書籤</span>
+    <button class="close-btn" (click)="close.emit()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M2 2l12 12M14 2L2 14"/>
+      </svg>
+    </button>
+  </div>
+  <div class="panel-body">
+    @if (bookmarks().length === 0) {
+      <p class="empty-hint">尚無書籤。瀏覽時點擊 ☆ 即可加入。</p>
+    }
+    @for (bm of bookmarks(); track bm.id) {
+      <div class="bookmark-item">
+        <button class="bookmark-click" (click)="open(bm)">
+          @if (faviconUrl(bm.url)) {
+            <img class="bm-favicon" [src]="faviconUrl(bm.url)" alt="" />
+          } @else {
+            <span class="bm-favicon-ph">◎</span>
+          }
+          <div class="bm-info">
+            <span class="bm-title">{{ bm.title }}</span>
+            <span class="bm-url">{{ bm.url }}</span>
+          </div>
+        </button>
+        <button class="bm-remove" (click)="remove(bm.id)" title="移除書籤">✕</button>
+      </div>
+    }
+  </div>
+</div>

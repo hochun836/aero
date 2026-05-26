@@ -1,0 +1,101 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Linux x64
+          - platform: ubuntu-22.04
+            args: ''
+            label: linux
+
+          # Windows x64
+          - platform: windows-latest
+            args: ''
+            label: windows
+
+          # macOS Intel
+          - platform: macos-latest
+            args: '--target x86_64-apple-darwin'
+            label: macos-intel
+
+          # macOS Apple Silicon
+          - platform: macos-latest
+            args: '--target aarch64-apple-darwin'
+            label: macos-arm
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: >-
+            ${{
+              matrix.platform == 'macos-latest'
+              && 'aarch64-apple-darwin,x86_64-apple-darwin'
+              || ''
+            }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      # Linux 專用系統依賴
+      - name: Install Linux system dependencies
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            xdg-utils \
+            libgtk-3-dev \
+            libssl-dev \
+            fonts-noto-cjk
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'Aero ${{ github.ref_name }}'
+          releaseBody: |
+            ## Aero ${{ github.ref_name }}
+
+            ### 下載說明
+            | 平台 | 檔案 | 說明 |
+            |------|------|------|
+            | Windows | `Aero_*_x64-setup.exe` | NSIS 安裝檔 |
+            | Windows | `Aero_*_x64_en-US.msi` | MSI 安裝檔 |
+            | macOS (Intel) | `Aero_*_x64.dmg` | Intel Mac 安裝檔 |
+            | macOS (Apple Silicon) | `Aero_*_aarch64.dmg` | M 系列 Mac 安裝檔 |
+            | Linux | `Aero_*_amd64.deb` | Debian/Ubuntu |
+            | Linux | `Aero_*_amd64.AppImage` | 通用 Linux |
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}

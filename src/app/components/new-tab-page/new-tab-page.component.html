@@ -1,0 +1,76 @@
+<div class="new-tab">
+  <!-- Search bar -->
+  <div class="search-section">
+    <div class="app-name">Aero</div>
+    <form class="search-form" (submit)="onSearch($event)">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+        </svg>
+        <input
+          class="search-input"
+          type="text"
+          [(ngModel)]="searchQuery"
+          name="q"
+          placeholder="搜尋或輸入網址…"
+          autocomplete="off"
+          autofocus
+        />
+      </div>
+    </form>
+  </div>
+
+  <!-- Preset sites grid -->
+  <div class="presets-section">
+    <div class="presets-grid">
+      @for (preset of presets(); track preset.id) {
+        <div class="preset-card">
+          @if (editingPreset?.id === preset.id) {
+            <!-- Edit mode -->
+            <div class="preset-edit">
+              <input [(ngModel)]="editTitle" placeholder="標題" class="preset-edit-input" />
+              <input [(ngModel)]="editUrl" placeholder="網址" class="preset-edit-input" />
+              <div class="preset-edit-actions">
+                <button class="btn-save" (click)="saveEdit()">儲存</button>
+                <button class="btn-cancel" (click)="cancelEdit()">取消</button>
+              </div>
+            </div>
+          } @else {
+            <!-- View mode -->
+            <button class="preset-click-area" (click)="openPreset(preset)">
+              @if (faviconUrl(preset.url)) {
+                <img class="preset-favicon" [src]="faviconUrl(preset.url)" alt="" />
+              } @else {
+                <div class="preset-favicon-placeholder">{{ preset.title[0] }}</div>
+              }
+              <span class="preset-title">{{ preset.title }}</span>
+            </button>
+            <div class="preset-actions">
+              <button class="preset-action-btn" (click)="startEdit(preset)" title="編輯">✎</button>
+              <button class="preset-action-btn preset-action-btn--remove" (click)="removePreset(preset.id)" title="移除">✕</button>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Add preset card -->
+      @if (!showAddForm) {
+        <button class="preset-card preset-add-btn" (click)="showAddForm = true">
+          <span class="preset-add-icon">+</span>
+          <span class="preset-title">新增</span>
+        </button>
+      } @else {
+        <div class="preset-card">
+          <div class="preset-edit">
+            <input [(ngModel)]="newTitle" placeholder="標題（可選）" class="preset-edit-input" />
+            <input [(ngModel)]="newUrl" placeholder="網址" class="preset-edit-input" />
+            <div class="preset-edit-actions">
+              <button class="btn-save" (click)="addPreset()">新增</button>
+              <button class="btn-cancel" (click)="showAddForm = false">取消</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

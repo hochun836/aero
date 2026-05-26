@@ -1,0 +1,60 @@
+<div class="toolbar">
+  <!-- Navigation buttons -->
+  <div class="nav-btns">
+    <button class="icon-btn" (click)="goBack()" title="上一頁 (Alt+←)">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+      </svg>
+    </button>
+    <button class="icon-btn" (click)="goForward()" title="下一頁 (Alt+→)">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+      </svg>
+    </button>
+    <button class="icon-btn" (click)="reload()" title="重新載入 (Ctrl+R)">
+      @if (activeTab()?.loading) {
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      } @else {
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+        </svg>
+      }
+    </button>
+  </div>
+
+  <!-- Address bar -->
+  <form class="address-bar-form" (submit)="onNavigate($event)">
+    <div class="address-bar" [class.focused]="isFocused()">
+      @if (!isFocused() && activeTab() && !activeTab()!.isNewTab) {
+        <span class="protocol">
+          {{ activeTab()!.url.startsWith('https://') ? '🔒' : '⚠️' }}
+        </span>
+      }
+      <input
+        class="address-input"
+        type="text"
+        [ngModel]="isFocused() ? inputUrl() : displayUrl()"
+        (ngModelChange)="inputUrl.set($event)"
+        (focus)="onUrlFocus()"
+        (blur)="onUrlBlur()"
+        placeholder="搜尋或輸入網址"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+  </form>
+
+  <!-- Bookmark button -->
+  <button
+    class="icon-btn bookmark-btn"
+    [class.bookmarked]="isBookmarked()"
+    (click)="toggleBookmark()"
+    title="{{ isBookmarked() ? '移除書籤' : '加入書籤' }}"
+  >
+    <svg viewBox="0 0 20 20" [attr.fill]="isBookmarked() ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"/>
+    </svg>
+  </button>
+</div>
